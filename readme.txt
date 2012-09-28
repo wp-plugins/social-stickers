@@ -105,10 +105,10 @@ To make your own theme, create a folder in the themes/ folder and copy the png (
 
 Then create a file theme.txt in the same folder and put the following text in it (change the name, author, webpage and description accordingly).
 
-`Name: Simple Icons (default)`
-`Author: Dan Leech`
-`Webpage: http://demos.danleech.com/simpleicons/`
-`Description: The default theme of Social Stickers.`
+`Name: Simple Icons (default)
+Author: Dan Leech
+Webpage: http://demos.danleech.com/simpleicons/
+Description: The default theme of Social Stickers.`
 
 The file must have all the text listed above and in the exact same order. You must create the file otherwise the theme won't be recognized.
 
