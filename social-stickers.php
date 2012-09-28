@@ -652,7 +652,7 @@
 		$is_any_active = false;
 		
 		if(!$sortable) {
-			$output = $output.esc_attr(stripslashes($options['prefix']));	
+			$output = $output.stripslashes($options['prefix']);	
 		}
 		
 		if($sortable) $output = $output.'<div id="sortable">';
@@ -700,7 +700,7 @@
 		}
 		
 		if(!$sortable) {
-			$output = $output.esc_attr(stripslashes($options['suffix']));	
+			$output = $output.stripslashes($options['suffix']);	
 		}
 
 		
