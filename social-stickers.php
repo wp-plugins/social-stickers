@@ -633,6 +633,7 @@
 			$position = 1;
 			$theme_order = array();
 			foreach($options['stickers'] as $key => $data) {
+
 				if(strlen($data['username']) > 0) {
 					$theme_order[$position] = $key;
 					$position = $position + 1;
@@ -652,7 +653,7 @@
 		$is_any_active = false;
 		
 		if(!$sortable) {
-			$output = $output.esc_attr(stripslashes($options['prefix']));	
+			$output = $output.stripslashes($options['prefix']);	
 		}
 		
 		if($sortable) $output = $output.'<div id="sortable">';
@@ -700,7 +701,7 @@
 		}
 		
 		if(!$sortable) {
-			$output = $output.esc_attr(stripslashes($options['suffix']));	
+			$output = $output.stripslashes($options['suffix']);	
 		}
 
 		
