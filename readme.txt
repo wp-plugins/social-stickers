@@ -97,10 +97,15 @@ None at the moment.
 == Changelog ==
 
 = 1.1 =
-* [Fix] Fixed a bug that caused stickers to replicate when some actions were triggered (if updating, please delete all the data first and reactivate the plugin)
+* [Fix] Fixed a bug that caused stickers to replicate when some actions were triggered
 
 = 1.0 =
 * Initial version.
+
+== Upgrade Notice ==
+
+= 1.1 =
+This upgrade fixes a bug that could duplicate your social entries. Please delete all the data, disable the plugin and reactivate it.
 
 == Making your own theme ==
 
