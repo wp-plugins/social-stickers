@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.0
+		Version: 1.1
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -18,11 +18,16 @@
 	add_action('widgets_init', create_function('', 'return register_widget("social_stickers_widget");')); // Register the widget
 	wp_enqueue_script('social-stickers-sortable-script', plugin_dir_url(__FILE__).'js/sortable.js', array( "jquery", "jquery-ui-core", "jquery-ui-sortable")); 
 	
+	$options = get_option('social_stickers_settings');
+	if(is_array($options)) {
+		update_social_stickers();	
+	}
+	
 	// Prepare the array for our DB variables
 	function social_stickers_install() {
 		
 		$plugin_options = array(
-			'version' => '1.0',
+			'version' => '1.1',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -417,6 +422,12 @@
 		
 	}
 
+	function update_social_stickers() {
+		$options = get_option('social_stickers_settings');
+		$options['version'] = "1.1";
+		update_option('social_stickers_settings', $options);
+	}
+
 	// The plugin admin page
 	function social_stickers_settings() {
 
@@ -431,18 +442,13 @@
 			$mode = $_POST['social_stickers_mode'];
 			$prefix = $_POST['prefix'];
 			$suffix = $_POST['suffix'];
-			
-			foreach($options['stickers'] as $key => $data) {
-				$current_sticker = $_POST[$key];
-				if(isset($current_sticker)) {
-					$options['stickers'][$key]['username'] = $current_sticker;	
-				}
-			}
-			
+						
 			$options['powered_by_msg'] = (isset($powered_by)) ? true : false;
 			$options['mode'] = intval($mode);
 			$options['prefix'] = $prefix;
 			$options['suffix'] = $suffix;
+			
+			$stickers_order = array();
 			
 			if(isset($order) && strlen($order) > 0) {
 			
@@ -450,13 +456,40 @@
 				$order_no = 1;
 				foreach($social_stickers_order_ar as $sticker) {
 					$sticker = str_replace("&", "", $sticker);
-					if(strlen($sticker) > 0) {
-						$options['theme_stickers_order'][$options['theme']][$order_no] = $sticker;
-						$order_no = $order_no + 1;
+					if(strlen($sticker) > 0 && strlen($_POST[$sticker]) > 0) {
+						array_push($stickers_order, $sticker);
 					}
 				}
 				
 			}
+			
+			if(count($stickers_order) == 0) {
+				$stickers_order = $options['theme_stickers_order'][$options['theme']];	
+			}
+			
+			if(!is_array($stickers_order)) {
+				$stickers_order = array();	
+			}
+			
+			foreach($options['stickers'] as $key => $data) {
+				$current_sticker = $_POST[$key];
+				if(isset($current_sticker)) {
+					$options['stickers'][$key]['username'] = $current_sticker;
+					if(strlen($current_sticker) > 0 && !in_array($key, $stickers_order)) {
+						array_push($stickers_order, $key);	
+					}
+				}
+			}
+
+			$stickers_final_order = array();
+			
+			foreach($stickers_order as $sticker) {
+				if(strlen($options['stickers'][$sticker]['username']) > 0) {
+					array_push($stickers_final_order, $sticker);	
+				}
+			}
+
+			$options['theme_stickers_order'][$options['theme']] = $stickers_final_order;
 			
 			update_option('social_stickers_settings', $options);		
 			$message = "Plugin options updated.";
@@ -495,7 +528,6 @@
 ?>
 
 
-        
                 <h3>General Settings</h3>
                 <form method="post" action="">
                 <input id="social_stickers_order" name="social_stickers_order" type="hidden" value="" />
@@ -619,32 +651,6 @@
 		return false;
 	}
 
-	// Returns an array of ordered stickers like this:
-	// 1 => googleplus, 2 => flickr etc.
-	// If theme order isn't set yet, it just return an array of available stickers
-	function order_social_stickers($theme) {
-	
-		$options = get_option('social_stickers_settings');
-		$theme_order = $options['theme_stickers_order'][$theme];
-		if(isset($theme_order)) {
-			ksort($theme_order);			
-		}
-		else {
-			$position = 1;
-			$theme_order = array();
-			foreach($options['stickers'] as $key => $data) {
-				if(strlen($data['username']) > 0) {
-					$theme_order[$position] = $key;
-					$position = $position + 1;
-				}
-			}
-			
-		}
-		
-		return $theme_order;		
-
-	}
-	
 	function display_social_stickers($sortable) {
 	
 		$options = get_option('social_stickers_settings');
@@ -652,12 +658,30 @@
 		$is_any_active = false;
 		
 		if(!$sortable) {
-			$output = $output.esc_attr(stripslashes($options['prefix']));	
+			$output = $output.stripslashes($options['prefix']);	
 		}
 		
 		if($sortable) $output = $output.'<div id="sortable">';
-		$ordered = order_social_stickers($options['theme']);
-		foreach($ordered as $order => $key) {
+		$stickers_theme_order = $options['theme_stickers_order'][$options['theme']];
+		
+		$stickers = array();
+		
+		if(is_array($stickers_theme_order)) {
+			foreach($stickers_theme_order as $sticker) {
+				array_push($stickers, $sticker);
+			}
+		}
+		else {
+			foreach($options['stickers'] as $key => $data) {
+				if(strlen($data['username']) > 0) {
+					array_push($stickers, $key);
+				}
+			}
+		}
+		
+		
+		
+		foreach($stickers as $key) {
 			$data = $options['stickers'][$key];
 			$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 			$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
@@ -686,6 +710,7 @@
 				}
 			}
 		}
+		
 		if($sortable) {
 			$output = $output."</div>";	
 		}
@@ -700,7 +725,7 @@
 		}
 		
 		if(!$sortable) {
-			$output = $output.esc_attr(stripslashes($options['suffix']));	
+			$output = $output.stripslashes($options['suffix']);	
 		}
 
 		
