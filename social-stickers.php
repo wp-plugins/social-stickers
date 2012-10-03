@@ -754,7 +754,7 @@
 			
 			// The widget code and the widgeet output
 			
-			display_social_stickers();
+			display_social_stickers(false);
 			
 			// End of widget output
 			
