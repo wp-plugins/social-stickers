@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.1
+		Version: 1.2
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -27,12 +27,13 @@
 	function social_stickers_install() {
 		
 		$plugin_options = array(
-			'version' => '1.1',
+			'version' => '1.2',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
 			'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 			'theme' => 'default',
+			'link_new' => false,
 			'theme_stickers_order' => array( // Each theme has its own order of sticker positions
 				"default" => NULL
 			),
@@ -165,8 +166,14 @@
 					'username' => ''
 				),
 				'googleplus' => array(
-					'url' => 'http://gplus.to/[:username]',
+					'url' => 'http://plus.google.com/[:username]',
 					'name' => 'Google+',
+					'active' => false,
+					'username' => ''
+				),
+				'goodreads' => array(
+					'url' => 'http://www.goodreads.com/[:username]',
+					'name' => 'Goodreads',
 					'active' => false,
 					'username' => ''
 				),
@@ -357,7 +364,7 @@
 					'username' => ''
 				),
 				'xing' => array(
-					'url' => 'http://xing.to/[:username]',
+					'url' => 'http://www.xing.com/profile/[:username]',
 					'name' => 'Xing',
 					'active' => false,
 					'username' => ''
@@ -374,11 +381,21 @@
 	
 	}
 
-	function jquery_init_social_stickers() {
-		wp_enqueue_script('jquery');
-		wp_enqueue_script('jquery-ui-core');
-		wp_enqueue_script('jquery-ui-sortable');
-		wp_enqueue_script('jquery-ui-mouse');		
+	function update_social_stickers() {
+		$options = get_option('social_stickers_settings');
+		if($options['version'] < 1.2) {
+			$options['version'] = "1.2";
+			$options['stickers']['goodreads'] = array(
+								'url' => 'http://www.goodreads.com/[:username]',
+								'name' => 'Goodreads',
+								'active' => false,
+								'username' => ''
+								);
+			$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
+			$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
+			$options['link_new'] = false;
+			update_option('social_stickers_settings', $options);
+		}
 	}
 
 	// Create the admin menu
@@ -422,12 +439,6 @@
 		
 	}
 
-	function update_social_stickers() {
-		$options = get_option('social_stickers_settings');
-		$options['version'] = "1.1";
-		update_option('social_stickers_settings', $options);
-	}
-
 	// The plugin admin page
 	function social_stickers_settings() {
 
@@ -442,8 +453,10 @@
 			$mode = $_POST['social_stickers_mode'];
 			$prefix = $_POST['prefix'];
 			$suffix = $_POST['suffix'];
+			$link_new = $_POST['link_new'];
 						
 			$options['powered_by_msg'] = (isset($powered_by)) ? true : false;
+			$options['link_new'] = (isset($link_new)) ? true : false;
 			$options['mode'] = intval($mode);
 			$options['prefix'] = $prefix;
 			$options['suffix'] = $suffix;
@@ -593,6 +606,13 @@
                         </td>
 					</tr>
 					<tr>
+						<th scope="row">Open links in new window</th>
+						<td>
+                        	<input name="link_new" id="link_new" type="checkbox" <?php if($options['link_new']) { ?> checked="checked" <?php } ?>/>
+                            <br /><span class="description">Check this to open all social links in new tabs.</span>
+                        </td>
+					</tr>
+					<tr>
 						<th scope="row">Delete all plugin data</th>
 						<td>
                         	<input name="delete_data" id="delete_data" type="checkbox" />
@@ -679,8 +699,6 @@
 			}
 		}
 		
-		
-		
 		foreach($stickers as $key) {
 			$data = $options['stickers'][$key];
 			$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
@@ -695,17 +713,37 @@
 							$output = $output.'<div id="social_'.$key.'" style="margin-left: 3px; float: left;"> <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="32px" width="32px" /></a></div>';
 						}
 						else {
-							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="32px" width="32px" /></a>';							
+							if($options['link_new']) {
+								$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="32px" width="32px" /></a>';
+							}
+							else {
+								$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="32px" width="32px" /></a>';
+							}							
 						}
 					break;
 					case 1:
-						$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="64px" width="64px" /></a>';
+						if($options['link_new']) {
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="64px" width="64px" /></a>';
+						}
+						else {
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="64px" width="64px" /></a>';
+						}							
 					break;
 					case 2:
-						$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="128px" width="128px" /></a>';
+						if($options['link_new']) {
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="128px" width="128px" /></a>';
+						}
+						else {
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="128px" width="128px" /></a>';
+						}							
 					break;	
 					case 3:
-						$output = $output.'<img src="'.$file_url.'" height="16px" width="16px" alt="'.$data['name'].'" /> <a href="'.$social_url.'">'.$data['name'].'</a><br />';
+						if($options['link_new']) {
+							$output = $output.'<img src="'.$file_url.'" height="16px" width="16px" alt="'.$data['name'].'" /> <a href="'.$social_url.'" target="_blank">'.$data['name'].'</a><br />';
+						}
+						else {
+							$output = $output.'<img src="'.$file_url.'" height="16px" width="16px" alt="'.$data['name'].'" /> <a href="'.$social_url.'">'.$data['name'].'</a><br />';
+						}							
 					break;	
 				}
 			}

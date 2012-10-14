@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,6 +44,7 @@ Currently supported social networks:
 * Foursquare
 * Github
 * Geeklist
+* Goodreads
 * Google+
 * Gravatar
 * Grooveshark
@@ -95,6 +96,12 @@ None at the moment.
 3. Plugin settings page
 
 == Changelog ==
+
+= 1.2 =
+* Added Goodreads
+* Changed Xing and Google+ URLs to official links
+* Added Xing to picons theme (thanks to Joachim)
+* Added the options to open links in new tab.
 
 = 1.1 =
 * [Fix] Fixed a bug that caused stickers to replicate when some actions were triggered.
