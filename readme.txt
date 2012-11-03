@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.2
+Stable tag: 1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,6 +97,9 @@ None at the moment.
 
 == Changelog ==
 
+= 1.3 =
+* Added the option to change profile URLs
+
 = 1.2 =
 * Added Goodreads
 * Changed Xing and Google+ URLs to official links
@@ -146,3 +149,10 @@ The author of this plugin is Bostjan Cigan, visit the [homepage](http://bostjan.
 == Homepage ==
 
 Visit the [homepage](http://wpplugz.is-leet.com "homepage of social stickers") of the plugin.
+
+== Donators ==
+
+Thank you to the following people who have donated so far:
+
+* Pastrana Gomez
+* Ollie Smith
