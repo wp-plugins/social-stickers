@@ -156,3 +156,4 @@ Thank you to the following people who have donated so far:
 
 * Pastrana Gomez
 * Ollie Smith
+* Sue Parker
