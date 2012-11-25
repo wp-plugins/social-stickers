@@ -397,7 +397,7 @@
 			'active' => false,
 			'username' => ''
 		);
-		$options['show_edit_url'] = (isset($options['show_edit_url']) ? $options['show_edit_url'] : false;
+		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
 		if(!isset($options['stickers']['goodreads'])) {
 			$options['stickers']['goodreads'] = array(
 								'url' => 'http://www.goodreads.com/[:username]',
@@ -408,8 +408,8 @@
 		}
 		$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
 		$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
-		$options['link_new'] = (isset($options['link_new']) ? $options['link_new'] : false;
-		$options['show_edit_url'] = (isset($options['show_edit_url']) ? $options['show_edit_url'] : false;
+		$options['link_new'] = (isset($options['link_new'])) ? $options['link_new'] : false;
+		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
 		update_option('social_stickers_settings', $options);
 	}
 
