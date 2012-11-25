@@ -20,14 +20,16 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		update_social_stickers();	
+		if($options['version'] < 1.4) {
+			update_social_stickers();
+		}	
 	}
 	
 	// Prepare the array for our DB variables
 	function social_stickers_install() {
 		
 		$plugin_options = array(
-			'version' => '1.2',
+			'version' => '1.4',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -390,7 +392,7 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		$options['version'] == "1.4";
+		$options['version'] = "1.4";
 		$options['stickers']['instagram'] = array(
 			'url' => 'http://instagram.com/[:username]',
 			'name' => 'Instagram',
