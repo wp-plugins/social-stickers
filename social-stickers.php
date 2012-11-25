@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.2
+		Version: 1.4
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -202,6 +202,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'instagram' => array(
+					'url' => 'http://instagram.com/[:username]',
+					'name' => 'Instagram',
+					'active' => false,
+					'username' => ''
+				),
 				'lastfm' => array(
 					'url' => 'http://last.fm/user/[:username]',
 					'name' => 'LastFM',
@@ -384,24 +390,27 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		if($options['version'] == 1.2) {
-			$options['version'] = "1.3";
-			$options['show_edit_url'] = false;
-		}
-		else if($options['version'] < 1.2) {
-			$options['version'] = "1.3";
+		$options['version'] == "1.4";
+		$options['stickers']['instagram'] = array(
+			'url' => 'http://instagram.com/[:username]',
+			'name' => 'Instagram',
+			'active' => false,
+			'username' => ''
+		);
+		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
+		if(!isset($options['stickers']['goodreads'])) {
 			$options['stickers']['goodreads'] = array(
 								'url' => 'http://www.goodreads.com/[:username]',
 								'name' => 'Goodreads',
 								'active' => false,
 								'username' => ''
-								);
-			$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
-			$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
-			$options['link_new'] = false;
-			$options['show_edit_url'] = false;
-			update_option('social_stickers_settings', $options);
+								);			
 		}
+		$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
+		$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
+		$options['link_new'] = (isset($options['link_new'])) ? $options['link_new'] : false;
+		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
+		update_option('social_stickers_settings', $options);
 	}
 
 	// Create the admin menu

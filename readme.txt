@@ -50,6 +50,7 @@ Currently supported social networks:
 * Grooveshark
 * Hi5
 * IMDB
+* Instagram
 * LastFM
 * Livejournal
 * Linkedin
@@ -96,6 +97,10 @@ None at the moment.
 3. Plugin settings page
 
 == Changelog ==
+
+= 1.4 =
+* Added Instagram
+* Added Instagram icon to default theme
 
 = 1.3 =
 * Added the option to change profile URLs
@@ -156,3 +161,5 @@ Thank you to the following people who have donated so far:
 
 * Pastrana Gomez
 * Ollie Smith
+* Sue Parker
+* Jay
