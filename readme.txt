@@ -100,6 +100,7 @@ None at the moment.
 
 = 1.4 =
 * Added Instagram
+* Added Instagram icon to the default theme
 
 = 1.3 =
 * Added the option to change profile URLs
