@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.2
+		Version: 1.5
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -20,14 +20,16 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		update_social_stickers();	
+		if($options['version'] < 1.5) {
+			update_social_stickers();
+		}	
 	}
 	
 	// Prepare the array for our DB variables
 	function social_stickers_install() {
 		
 		$plugin_options = array(
-			'version' => '1.2',
+			'version' => '1.4',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -39,6 +41,12 @@
 				"default" => NULL
 			),
 			'stickers' => array(
+				'500px' => array(
+					'url' => 'http://500px.com/[:username]',
+					'name' => '500px',
+					'active' => false,
+					'username' => ''
+				),
 				'aboutme' => array(
 					'url' => 'http://about.me/[:username]',
 					'name' => 'About Me',
@@ -66,6 +74,12 @@
 				'blogger' => array(
 					'url' => 'http://[:username].blogspot.com/',
 					'name' => 'Blogger',
+					'active' => false,
+					'username' => ''
+				),
+				'coderwall' => array(
+					'url' => 'http://coderwall.com/[:username]',
+					'name' => 'Coderwall',
 					'active' => false,
 					'username' => ''
 				),
@@ -111,11 +125,16 @@
 					'active' => false,
 					'username' => ''
 				),
+				'email' => array(
+					'url' => 'mailto:[:username]',
+					'name' => 'Email',
+					'active' => false,
+					'username' => ''				
+				),
 				'exfm' => array(
 					'url' => 'http://ex.fm/[:username]',
 					'name' => 'exfm',
 					'active' => false,
-					'position' => 12,
 					'username' => ''
 				),
 				'etsy' => array(
@@ -202,6 +221,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'instagram' => array(
+					'url' => 'http://instagram.com/[:username]',
+					'name' => 'Instagram',
+					'active' => false,
+					'username' => ''
+				),
 				'lastfm' => array(
 					'url' => 'http://last.fm/user/[:username]',
 					'name' => 'LastFM',
@@ -259,6 +284,12 @@
 				'posterous' => array(
 					'url' => 'http://[:username].posterous.com',
 					'name' => 'Posterous',
+					'active' => false,
+					'username' => ''
+				),
+				'rss' => array(
+					'url' => '[:username]',
+					'name' => 'RSS',
 					'active' => false,
 					'username' => ''
 				),
@@ -384,24 +415,53 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		if($options['version'] == 1.2) {
-			$options['version'] = "1.3";
-			$options['show_edit_url'] = false;
+		$options['version'] = "1.5";
+		$options['stickers']['rss'] = array(
+			'url' => '[:username]',
+			'name' => 'RSS',
+			'active' => false,
+			'username' => ''
+		);
+		$options['stickers']['coderwall'] = array(
+			'url' => 'http://coderwall.com/[:username]',
+			'name' => 'Coderwall',
+			'active' => false,
+			'username' => ''
+		);
+		$options['stickers']['email'] = array(
+			'url' => 'mailto:[:username]',
+			'name' => 'Email',
+			'active' => false,
+			'username' => ''				
+		);		
+		$options['stickers']['500px'] = array(
+			'url' => 'http://500px.com/[:username]',
+			'name' => '500px',
+			'active' => false,
+			'username' => ''
+		);
+		if(!isset($options['stickers']['instagram'])) {
+			$options['stickers']['instagram'] = array(
+				'url' => 'http://instagram.com/[:username]',
+				'name' => 'Instagram',
+				'active' => false,
+				'username' => ''
+			);
 		}
-		else if($options['version'] < 1.2) {
-			$options['version'] = "1.3";
+		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
+		if(!isset($options['stickers']['goodreads'])) {
 			$options['stickers']['goodreads'] = array(
 								'url' => 'http://www.goodreads.com/[:username]',
 								'name' => 'Goodreads',
 								'active' => false,
 								'username' => ''
-								);
-			$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
-			$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
-			$options['link_new'] = false;
-			$options['show_edit_url'] = false;
-			update_option('social_stickers_settings', $options);
+								);			
 		}
+		$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
+		$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
+		$options['link_new'] = (isset($options['link_new'])) ? $options['link_new'] : false;
+		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
+		update_option('social_stickers_settings', $options);
 	}
 
 	// Create the admin menu
