@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.4
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,11 +23,13 @@ What this plugin offers:
 
 Currently supported social networks:
 
+* 500px
 * About Me
 * AIM
 * Behance
 * Bebo
 * Blogger
+* Coderwall
 * Dailybooth
 * Delicious
 * Designfloat
@@ -35,6 +37,7 @@ Currently supported social networks:
 * Digg
 * Dribble
 * Ebay
+* Email
 * exfm
 * Etsy
 * Flickr
@@ -61,6 +64,7 @@ Currently supported social networks:
 * Pinboard
 * Pinterest
 * Posterous
+* RSS
 * Quora
 * Qik
 * Slashdot
@@ -97,6 +101,13 @@ None at the moment.
 3. Plugin settings page
 
 == Changelog ==
+
+= 1.5 =
+* Added Coderwall
+* Added RSS
+* Added 500px
+* Changed Goodreads icon to official Dan Leech set
+* Added email
 
 = 1.4 =
 * Added Instagram

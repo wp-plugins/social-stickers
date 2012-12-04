@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.4
+		Version: 1.5
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -20,7 +20,7 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if($options['version'] < 1.4) {
+		if($options['version'] < 1.5) {
 			update_social_stickers();
 		}	
 	}
@@ -41,6 +41,12 @@
 				"default" => NULL
 			),
 			'stickers' => array(
+				'500px' => array(
+					'url' => 'http://500px.com/[:username]',
+					'name' => '500px',
+					'active' => false,
+					'username' => ''
+				),
 				'aboutme' => array(
 					'url' => 'http://about.me/[:username]',
 					'name' => 'About Me',
@@ -68,6 +74,12 @@
 				'blogger' => array(
 					'url' => 'http://[:username].blogspot.com/',
 					'name' => 'Blogger',
+					'active' => false,
+					'username' => ''
+				),
+				'coderwall' => array(
+					'url' => 'http://coderwall.com/[:username]',
+					'name' => 'Coderwall',
 					'active' => false,
 					'username' => ''
 				),
@@ -113,11 +125,16 @@
 					'active' => false,
 					'username' => ''
 				),
+				'email' => array(
+					'url' => 'mailto:[:username]',
+					'name' => 'Email',
+					'active' => false,
+					'username' => ''				
+				),
 				'exfm' => array(
 					'url' => 'http://ex.fm/[:username]',
 					'name' => 'exfm',
 					'active' => false,
-					'position' => 12,
 					'username' => ''
 				),
 				'etsy' => array(
@@ -270,6 +287,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'rss' => array(
+					'url' => '[:username]',
+					'name' => 'RSS',
+					'active' => false,
+					'username' => ''
+				),
 				'quora' => array(
 					'url' => 'http://quora.com/[:username]',
 					'name' => 'Quora',
@@ -392,13 +415,39 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		$options['version'] = "1.4";
-		$options['stickers']['instagram'] = array(
-			'url' => 'http://instagram.com/[:username]',
-			'name' => 'Instagram',
+		$options['version'] = "1.5";
+		$options['stickers']['rss'] = array(
+			'url' => '[:username]',
+			'name' => 'RSS',
 			'active' => false,
 			'username' => ''
 		);
+		$options['stickers']['coderwall'] = array(
+			'url' => 'http://coderwall.com/[:username]',
+			'name' => 'Coderwall',
+			'active' => false,
+			'username' => ''
+		);
+		$options['stickers']['email'] = array(
+			'url' => 'mailto:[:username]',
+			'name' => 'Email',
+			'active' => false,
+			'username' => ''				
+		);		
+		$options['stickers']['500px'] = array(
+			'url' => 'http://500px.com/[:username]',
+			'name' => '500px',
+			'active' => false,
+			'username' => ''
+		);
+		if(!isset($options['stickers']['instagram'])) {
+			$options['stickers']['instagram'] = array(
+				'url' => 'http://instagram.com/[:username]',
+				'name' => 'Instagram',
+				'active' => false,
+				'username' => ''
+			);
+		}
 		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
 		if(!isset($options['stickers']['goodreads'])) {
 			$options['stickers']['goodreads'] = array(
