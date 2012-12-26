@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.5
+Stable tag: 1.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,7 @@ Currently supported social networks:
 * 500px
 * About Me
 * AIM
+* APP.net
 * Behance
 * Bebo
 * Blogger
@@ -65,6 +66,7 @@ Currently supported social networks:
 * Pinterest
 * Posterous
 * RSS
+* Snapjoy
 * Quora
 * Qik
 * Slashdot
@@ -101,6 +103,10 @@ None at the moment.
 3. Plugin settings page
 
 == Changelog ==
+
+= 1.5.1 =
+* Added Snapjoy
+* Added App.net
 
 = 1.5 =
 * Added Coderwall
@@ -174,3 +180,5 @@ Thank you to the following people who have donated so far:
 * Ollie Smith
 * Sue Parker
 * Jay
+* Paal
+* David Chartier
