@@ -20,7 +20,7 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if($options['version'] < 1.51) {
+		if(((float)$options['version']) < 1.51) {
 			update_social_stickers();
 		}	
 	}
@@ -427,7 +427,7 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		if($options['version'] < 1.51) {
+		if(((float) $options['version']) < 1.51) {
 			$options['stickers']['appnet'] = array(
 				'url' => 'https://alpha.app.net/[:username]',
 				'name' => 'app.net',
@@ -492,9 +492,9 @@
 			$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
 			$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
 			$options['link_new'] = (isset($options['link_new'])) ? $options['link_new'] : false;
+			update_option('social_stickers_settings', $options);
+			
 		}
-
-		update_option('social_stickers_settings', $options);
 
 	}
 
