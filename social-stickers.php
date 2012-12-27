@@ -428,6 +428,7 @@
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
 		if(((float) $options['version']) < 1.51) {
+			$options['version'] = '1.51';
 			$options['stickers']['appnet'] = array(
 				'url' => 'https://alpha.app.net/[:username]',
 				'name' => 'app.net',
