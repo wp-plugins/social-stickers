@@ -9,7 +9,7 @@
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
 	*/ 
-
+	
 	// Wordpress formalities here ...
 	
 	// Lets register things
@@ -25,6 +25,23 @@
 		}	
 	}
 	
+function like_content($content) {
+	global $post;
+                $original = $content;
+		$content = "<div class=\"ikaz\">";
+		$content .= "hello all";
+		$content .= "</div>";
+		$content .= $original;
+		
+	$origpostdate = get_the_date($d, $the_post->post_parent);
+		$origposttime = get_the_time($d, $the_post->post_parent);
+		$dateline = $origpostdate.' '.$origposttime;	
+
+			$content .= $dateline;
+		
+return $content;
+}
+add_filter( 'the_content', 'like_content' );
 	// Prepare the array for our DB variables
 	function social_stickers_install() {
 		
