@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.5.1
+		Version: 1.5.2
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -20,7 +20,7 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 1.51) {
+		if(((float)$options['version']) < 1.52) {
 			update_social_stickers();
 		}	
 	}
@@ -29,7 +29,7 @@
 	function social_stickers_install() {
 		
 		$plugin_options = array(
-			'version' => '1.51',
+			'version' => '1.52',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -293,6 +293,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'ravelry' => array(
+					'url' => 'http://www.ravelry.com/people/[:username]',
+					'name' => 'Ravelry',
+					'active' => false,
+					'username' => ''
+				),
 				'rss' => array(
 					'url' => '[:username]',
 					'name' => 'RSS',
@@ -427,20 +433,30 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		if(((float) $options['version']) < 1.51) {
-			$options['version'] = '1.51';
-			$options['stickers']['appnet'] = array(
-				'url' => 'https://alpha.app.net/[:username]',
-				'name' => 'app.net',
+		if(((float) $options['version']) < 1.52) {
+			$options['version'] = '1.52';
+			$options['stickers']['ravelry'] = array(
+				'url' => 'http://www.ravelry.com/people/[:username]',
+				'name' => 'Ravelry',
 				'active' => false,
 				'username' => ''
-			);
-			$options['stickers']['snapjoy'] = array(
-				'url' => 'https://[:username].snapjoy.com',
-				'name' => 'Snapjoy',
-				'active' => false,
-				'username' => ''
-			);
+			);		
+			if(!isset($options['stickers']['appnet'])) {
+				$options['stickers']['appnet'] = array(
+					'url' => 'https://alpha.app.net/[:username]',
+					'name' => 'app.net',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['snapjoy'])) {
+				$options['stickers']['snapjoy'] = array(
+					'url' => 'https://[:username].snapjoy.com',
+					'name' => 'Snapjoy',
+					'active' => false,
+					'username' => ''
+				);
+			}
 			if(!isset($options['stickers']['coderwall'])) {
 				$options['stickers']['coderwall'] = array(
 					'url' => 'http://coderwall.com/[:username]',
