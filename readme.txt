@@ -107,25 +107,25 @@ None at the moment.
 == Changelog ==
 
 = 1.5.2 =
-* Added Ravelry
+* Added Ravelry.
 
 = 1.5.1 =
 * Added Snapjoy
-* Added App.net
+* Added App.net.
 
 = 1.5 =
 * Added Coderwall
 * Added RSS
 * Added 500px
 * Changed Goodreads icon to official Dan Leech set
-* Added email
+* Added email.
 
 = 1.4 =
 * Added Instagram
-* Added Instagram icon to the default theme
+* Added Instagram icon to the default theme.
 
 = 1.3 =
-* Added the option to change profile URLs
+* Added the option to change profile URLs.
 
 = 1.2 =
 * Added Goodreads
