@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== Social Stickers ===
 Contributors: ZeroCool51
 Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 1.5
+Tested up to: 3.5
+Stable tag: 1.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,8 +26,11 @@ Currently supported social networks:
 * 500px
 * About Me
 * AIM
+* APP.net
 * Behance
 * Bebo
+* Blogconnect
+* Bloglovin
 * Blogger
 * Coderwall
 * Dailybooth
@@ -55,6 +58,7 @@ Currently supported social networks:
 * IMDB
 * Instagram
 * LastFM
+* Lovelybooks
 * Livejournal
 * Linkedin
 * Myspace
@@ -64,10 +68,13 @@ Currently supported social networks:
 * Pinboard
 * Pinterest
 * Posterous
+* Ravelry
 * RSS
+* Snapjoy
 * Quora
 * Qik
 * Slashdot
+* Spotify
 * Slideshare
 * Soundcloud
 * Skype
@@ -102,19 +109,31 @@ None at the moment.
 
 == Changelog ==
 
+= 1.5.3 =
+* Added Lovelybook
+* Added Bloglovin
+* Added Blogconnect.
+
+= 1.5.2 =
+* Added Ravelry.
+
+= 1.5.1 =
+* Added Snapjoy
+* Added App.net.
+
 = 1.5 =
 * Added Coderwall
 * Added RSS
 * Added 500px
 * Changed Goodreads icon to official Dan Leech set
-* Added email
+* Added email.
 
 = 1.4 =
 * Added Instagram
-* Added Instagram icon to the default theme
+* Added Instagram icon to the default theme.
 
 = 1.3 =
-* Added the option to change profile URLs
+* Added the option to change profile URLs.
 
 = 1.2 =
 * Added Goodreads
@@ -174,3 +193,5 @@ Thank you to the following people who have donated so far:
 * Ollie Smith
 * Sue Parker
 * Jay
+* Paal
+* David Chartier

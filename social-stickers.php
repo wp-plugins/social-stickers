@@ -4,12 +4,12 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.5
+		Version: 1.5.3
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
 	*/ 
-
+	
 	// Wordpress formalities here ...
 	
 	// Lets register things
@@ -20,16 +20,16 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if($options['version'] < 1.5) {
+		if(((float)$options['version']) < 1.53) {
 			update_social_stickers();
 		}	
 	}
 	
 	// Prepare the array for our DB variables
 	function social_stickers_install() {
-		
+
 		$plugin_options = array(
-			'version' => '1.4',
+			'version' => '1.53',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -59,6 +59,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'appnet' => array(
+					'url' => 'https://alpha.app.net/[:username]',
+					'name' => 'app.net',
+					'active' => false,
+					'username' => ''
+				),
 				'behance' => array(
 					'url' => 'http://behance.net/[:username]',
 					'name' => 'Behance',
@@ -71,9 +77,21 @@
 					'active' => false,
 					'username' => ''
 				),
+				'blogconnect' => array(
+					'url' => 'http://blog-connect.com/a?id=[:username]',
+					'name' => 'Blogconnect',
+					'active' => false,
+					'username' => ''
+				),
 				'blogger' => array(
 					'url' => 'http://[:username].blogspot.com/',
 					'name' => 'Blogger',
+					'active' => false,
+					'username' => ''
+				),
+				'bloglovin' => array(
+					'url' => 'http://www.bloglovin.com/en/blog/[:username]',
+					'name' => 'Bloglovin',
 					'active' => false,
 					'username' => ''
 				),
@@ -245,6 +263,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'lovelybooks' => array(
+					'url' => 'http://www.lovelybooks.de/mitglied/[:username]',
+					'name' => 'Lovelybooks',
+					'active' => false,
+					'username' => ''
+				),
 				'myspace' => array(
 					'url' => 'http://myspace.com/[:username]',
 					'name' => 'Myspace',
@@ -287,6 +311,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'ravelry' => array(
+					'url' => 'http://www.ravelry.com/people/[:username]',
+					'name' => 'Ravelry',
+					'active' => false,
+					'username' => ''
+				),
 				'rss' => array(
 					'url' => '[:username]',
 					'name' => 'RSS',
@@ -320,6 +350,12 @@
 				'slideshare' => array(
 					'url' => 'http://www.slideshare.net/[:username]',
 					'name' => 'Slideshare',
+					'active' => false,
+					'username' => ''
+				),
+				'snapjoy' => array(
+					'url' => 'https://[:username].snapjoy.com',
+					'name' => 'Snapjoy',
 					'active' => false,
 					'username' => ''
 				),
@@ -415,53 +451,108 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		$options['version'] = "1.5";
-		$options['stickers']['rss'] = array(
-			'url' => '[:username]',
-			'name' => 'RSS',
-			'active' => false,
-			'username' => ''
-		);
-		$options['stickers']['coderwall'] = array(
-			'url' => 'http://coderwall.com/[:username]',
-			'name' => 'Coderwall',
-			'active' => false,
-			'username' => ''
-		);
-		$options['stickers']['email'] = array(
-			'url' => 'mailto:[:username]',
-			'name' => 'Email',
-			'active' => false,
-			'username' => ''				
-		);		
-		$options['stickers']['500px'] = array(
-			'url' => 'http://500px.com/[:username]',
-			'name' => '500px',
-			'active' => false,
-			'username' => ''
-		);
-		if(!isset($options['stickers']['instagram'])) {
-			$options['stickers']['instagram'] = array(
-				'url' => 'http://instagram.com/[:username]',
-				'name' => 'Instagram',
-				'active' => false,
-				'username' => ''
+		if(((float) $options['version']) < 1.53) {
+			$options['version'] = '1.53';
+			
+			$options['stickers']['bloglovin'] = array(
+					'url' => 'http://www.bloglovin.com/en/blog/[:username]',
+					'name' => 'Bloglovin',
+					'active' => false,
+					'username' => ''
 			);
+			$options['stickers']['lovelybooks'] = array(
+					'url' => 'http://www.lovelybooks.de/mitglied/[:username]',
+					'name' => 'Lovelybooks',
+					'active' => false,
+					'username' => ''
+			);
+			$options['stickers']['blogconnect'] = array(
+					'url' => 'http://blog-connect.com/a?id=[:username]',
+					'name' => 'Blogconnect',
+					'active' => false,
+					'username' => ''
+			);
+			
+			if(!isset($options['stickers']['ravelry'])) {
+				$options['stickers']['ravelry'] = array(
+					'url' => 'http://www.ravelry.com/people/[:username]',
+					'name' => 'Ravelry',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['appnet'])) {
+				$options['stickers']['appnet'] = array(
+					'url' => 'https://alpha.app.net/[:username]',
+					'name' => 'app.net',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['snapjoy'])) {
+				$options['stickers']['snapjoy'] = array(
+					'url' => 'https://[:username].snapjoy.com',
+					'name' => 'Snapjoy',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['coderwall'])) {
+				$options['stickers']['coderwall'] = array(
+					'url' => 'http://coderwall.com/[:username]',
+					'name' => 'Coderwall',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['email'])) {
+				$options['stickers']['email'] = array(
+					'url' => 'mailto:[:username]',
+					'name' => 'Email',
+					'active' => false,
+					'username' => ''				
+				);
+			}
+			if(!isset($options['stickers']['rss'])) {
+				$options['stickers']['rss'] = array(
+					'url' => '[:username]',
+					'name' => 'RSS',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['500px'])) {
+				$options['stickers']['500px'] = array(
+					'url' => 'http://500px.com/[:username]',
+					'name' => '500px',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['instagram'])) {
+				$options['stickers']['instagram'] = array(
+					'url' => 'http://instagram.com/[:username]',
+					'name' => 'Instagram',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			if(!isset($options['stickers']['goodreads'])) {
+				$options['stickers']['goodreads'] = array(
+					'url' => 'http://www.goodreads.com/[:username]',
+					'name' => 'Goodreads',
+					'active' => false,
+					'username' => ''
+				);
+			}
+			$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
+			$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
+			$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
+			$options['link_new'] = (isset($options['link_new'])) ? $options['link_new'] : false;
+			update_option('social_stickers_settings', $options);
+			
 		}
-		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
-		if(!isset($options['stickers']['goodreads'])) {
-			$options['stickers']['goodreads'] = array(
-								'url' => 'http://www.goodreads.com/[:username]',
-								'name' => 'Goodreads',
-								'active' => false,
-								'username' => ''
-								);			
-		}
-		$options['stickers']['googleplus']['url'] = "http://plus.google.com/[:username]";
-		$options['stickers']['xing']['url'] = "http://www.xing.com/profile/[:username]";
-		$options['link_new'] = (isset($options['link_new'])) ? $options['link_new'] : false;
-		$options['show_edit_url'] = (isset($options['show_edit_url'])) ? $options['show_edit_url'] : false;
-		update_option('social_stickers_settings', $options);
+
 	}
 
 	// Create the admin menu
