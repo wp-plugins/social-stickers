@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.5.2
+		Version: 1.5.3
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -20,16 +20,16 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 1.52) {
+		if(((float)$options['version']) < 1.53) {
 			update_social_stickers();
 		}	
 	}
 	
 	// Prepare the array for our DB variables
 	function social_stickers_install() {
-		
+
 		$plugin_options = array(
-			'version' => '1.52',
+			'version' => '1.53',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -77,9 +77,21 @@
 					'active' => false,
 					'username' => ''
 				),
+				'blogconnect' => array(
+					'url' => 'http://blog-connect.com/a?id=[:username]',
+					'name' => 'Blogconnect',
+					'active' => false,
+					'username' => ''
+				),
 				'blogger' => array(
 					'url' => 'http://[:username].blogspot.com/',
 					'name' => 'Blogger',
+					'active' => false,
+					'username' => ''
+				),
+				'bloglovin' => array(
+					'url' => 'http://www.bloglovin.com/en/blog/[:username]',
+					'name' => 'Bloglovin',
 					'active' => false,
 					'username' => ''
 				),
@@ -248,6 +260,12 @@
 				'linkedin' => array(
 					'url' => 'http://linkedin.com/in/[:username]',
 					'name' => 'Linkedin',
+					'active' => false,
+					'username' => ''
+				),
+				'lovelybooks' => array(
+					'url' => 'http://www.lovelybooks.de/mitglied/[:username]',
+					'name' => 'Lovelybooks',
 					'active' => false,
 					'username' => ''
 				),
@@ -433,14 +451,36 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		if(((float) $options['version']) < 1.52) {
-			$options['version'] = '1.52';
-			$options['stickers']['ravelry'] = array(
-				'url' => 'http://www.ravelry.com/people/[:username]',
-				'name' => 'Ravelry',
-				'active' => false,
-				'username' => ''
-			);		
+		if(((float) $options['version']) < 1.53) {
+			$options['version'] = '1.53';
+			
+			$options['stickers']['bloglovin'] = array(
+					'url' => 'http://www.bloglovin.com/en/blog/[:username]',
+					'name' => 'Bloglovin',
+					'active' => false,
+					'username' => ''
+			);
+			$options['stickers']['lovelybooks'] = array(
+					'url' => 'http://www.lovelybooks.de/mitglied/[:username]',
+					'name' => 'Lovelybooks',
+					'active' => false,
+					'username' => ''
+			);
+			$options['stickers']['blogconnect'] = array(
+					'url' => 'http://blog-connect.com/a?id=[:username]',
+					'name' => 'Blogconnect',
+					'active' => false,
+					'username' => ''
+			);
+			
+			if(!isset($options['stickers']['ravelry'])) {
+				$options['stickers']['ravelry'] = array(
+					'url' => 'http://www.ravelry.com/people/[:username]',
+					'name' => 'Ravelry',
+					'active' => false,
+					'username' => ''
+				);
+			}
 			if(!isset($options['stickers']['appnet'])) {
 				$options['stickers']['appnet'] = array(
 					'url' => 'https://alpha.app.net/[:username]',
