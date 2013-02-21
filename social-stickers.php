@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.5.3
+		Version: 1.5.4
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -20,7 +20,7 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 1.53) {
+		if(((float)$options['version']) < 1.54) {
 			update_social_stickers();
 		}	
 	}
@@ -29,7 +29,7 @@
 	function social_stickers_install() {
 
 		$plugin_options = array(
-			'version' => '1.53',
+			'version' => '1.54',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -269,6 +269,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'mixcloud' => array(
+					'url' => 'http://www.mixcloud.com/[:username]',
+					'name' => 'Mixcloud',
+					'active' => false,
+					'username' => ''
+				),
 				'myspace' => array(
 					'url' => 'http://myspace.com/[:username]',
 					'name' => 'Myspace',
@@ -287,9 +293,9 @@
 					'active' => false,
 					'username' => ''
 				),
-				'picassa' => array(
+				'picasa' => array(
 					'url' => 'http://picasaweb.google.com/[:username]',
-					'name' => 'Picassa',
+					'name' => 'Picasa',
 					'active' => false,
 					'username' => ''
 				),
@@ -371,6 +377,12 @@
 					'active' => false,
 					'username' => ''
 				),
+				'stackoverflow' => array(
+					'url' => 'http://stackoverflow.com/users/[:username]',
+					'name' => 'Stackoverflow',
+					'active' => false,
+					'username' => ''
+				),
 				'steam' => array(
 					'url' => 'http://steamcommunity.com/id/[:username]',
 					'name' => 'Steam',
@@ -392,6 +404,12 @@
 				'orkut' => array(
 					'url' => 'http://www.orkut.com/Profile.aspx?uid=[:username]',
 					'name' => 'Orkut',
+					'active' => false,
+					'username' => ''
+				),
+				'tout' => array(
+					'url' => 'http://www.tout.com/u/[:username]',
+					'name' => 'Tout',
 					'active' => false,
 					'username' => ''
 				),
@@ -451,27 +469,56 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		if(((float) $options['version']) < 1.53) {
-			$options['version'] = '1.53';
+		if(((float) $options['version']) < 1.54) {
+			$options['version'] = '1.54';
+
+			$options['stickers']['stackoverflow'] = array(
+				'url' => 'http://stackoverflow.com/users/[:username]',
+				'name' => 'Stackoverflow',
+				'active' => false,
+				'username' => ''
+			);
 			
-			$options['stickers']['bloglovin'] = array(
+			$options['stickers']['mixcloud'] = array(
+				'url' => 'http://www.mixcloud.com/[:username]',
+				'name' => 'Mixcloud',
+				'active' => false,
+				'username' => ''
+			);
+
+			$options['stickers']['tout'] = array(
+				'url' => 'http://www.tout.com/u/[:username]',
+				'name' => 'Tout',
+				'active' => false,
+				'username' => ''
+			);
+
+			if(!isset($options['stickers']['bloglovin'])) {
+				$options['stickers']['bloglovin'] = array(
 					'url' => 'http://www.bloglovin.com/en/blog/[:username]',
 					'name' => 'Bloglovin',
 					'active' => false,
 					'username' => ''
-			);
-			$options['stickers']['lovelybooks'] = array(
+				);
+			}
+
+			if(!isset($options['stickers']['lovelybooks'])) {
+				$options['stickers']['lovelybooks'] = array(
 					'url' => 'http://www.lovelybooks.de/mitglied/[:username]',
 					'name' => 'Lovelybooks',
 					'active' => false,
 					'username' => ''
-			);
-			$options['stickers']['blogconnect'] = array(
+				);
+			}
+			
+			if(!isset($options['stickers']['blogconnect'])) {
+				$options['stickers']['blogconnect'] = array(
 					'url' => 'http://blog-connect.com/a?id=[:username]',
 					'name' => 'Blogconnect',
 					'active' => false,
 					'username' => ''
-			);
+				);
+			}
 			
 			if(!isset($options['stickers']['ravelry'])) {
 				$options['stickers']['ravelry'] = array(

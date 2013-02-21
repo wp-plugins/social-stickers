@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.5.3
+Stable tag: 1.5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,7 @@ Currently supported social networks:
 * Lovelybooks
 * Livejournal
 * Linkedin
+* Mixcloud
 * Myspace
 * Newsvine
 * Orkut
@@ -71,15 +72,17 @@ Currently supported social networks:
 * Ravelry
 * RSS
 * Snapjoy
+* Skype
+* Stackoverflow
 * Quora
 * Qik
 * Slashdot
 * Spotify
 * Slideshare
 * Soundcloud
-* Skype
 * Steam
 * Stumbleupon
+* Tout
 * Tumblr
 * Twitter
 * Vimeo
@@ -108,6 +111,13 @@ None at the moment.
 3. Plugin settings page
 
 == Changelog ==
+
+= 1.5.4 =
+* Added Tout
+* Added Mixcloud
+* Added Stackoverflow
+* Changed Myspace icon
+* Changed Posterous icon.
 
 = 1.5.3 =
 * Added Lovelybook
