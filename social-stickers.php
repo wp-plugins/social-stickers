@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 1.5.4
+		Version: 1.5.5
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -20,7 +20,7 @@
 	
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 1.54) {
+		if(((float)$options['version']) < 1.55) {
 			update_social_stickers();
 		}	
 	}
@@ -29,7 +29,7 @@
 	function social_stickers_install() {
 
 		$plugin_options = array(
-			'version' => '1.54',
+			'version' => '1.55',
 			'prefix' => '',
 			'suffix' => '',
 			'powered_by_msg' => false,
@@ -53,12 +53,24 @@
 					'active' => false,
 					'username' => ''
 				),
+				'academia' => array(
+					'url' => '[:username]',
+					'name' => 'Academia',
+					'active' => false,
+					'username' => ''
+				),
 				'aim' => array(
 					'url' => 'aim:goim?screenname=[:username]',
 					'name' => 'AIM',
 					'active' => false,
 					'username' => ''
 				),
+				'anobii' => array(
+					'url' => 'http://www.anobii.com/[:username]/books',
+					'name' => 'Anobii',
+					'active' => false,
+					'username' => ''
+				),				
 				'appnet' => array(
 					'url' => 'https://alpha.app.net/[:username]',
 					'name' => 'app.net',
@@ -469,29 +481,49 @@
 
 	function update_social_stickers() {
 		$options = get_option('social_stickers_settings');
-		if(((float) $options['version']) < 1.54) {
-			$options['version'] = '1.54';
+		if(((float) $options['version']) < 1.55) {
+			$options['version'] = '1.55';
 
-			$options['stickers']['stackoverflow'] = array(
-				'url' => 'http://stackoverflow.com/users/[:username]',
-				'name' => 'Stackoverflow',
-				'active' => false,
-				'username' => ''
+			$options['stickers']['academia'] = array(
+					'url' => '[:username]',
+					'name' => 'Academia',
+					'active' => false,
+					'username' => ''
 			);
+
+			$options['stickers']['anobii'] = array(
+					'url' => 'http://www.anobii.com/[:username]/books',
+					'name' => 'Anobii',
+					'active' => false,
+					'username' => ''
+			);
+
+			if(!isset($options['stickers']['stackoverflow'])) {
+				$options['stickers']['stackoverflow'] = array(
+					'url' => 'http://stackoverflow.com/users/[:username]',
+					'name' => 'Stackoverflow',
+					'active' => false,
+					'username' => ''
+				);
+			}
 			
-			$options['stickers']['mixcloud'] = array(
-				'url' => 'http://www.mixcloud.com/[:username]',
-				'name' => 'Mixcloud',
-				'active' => false,
-				'username' => ''
-			);
+			if(!isset($options['stickers']['mixcloud'])) {
+				$options['stickers']['mixcloud'] = array(
+					'url' => 'http://www.mixcloud.com/[:username]',
+					'name' => 'Mixcloud',
+					'active' => false,
+					'username' => ''
+				);
+			}
 
-			$options['stickers']['tout'] = array(
-				'url' => 'http://www.tout.com/u/[:username]',
-				'name' => 'Tout',
-				'active' => false,
-				'username' => ''
-			);
+			if(!isset($options['stickers']['tout'])) {
+				$options['stickers']['tout'] = array(
+					'url' => 'http://www.tout.com/u/[:username]',
+					'name' => 'Tout',
+					'active' => false,
+					'username' => ''
+				);				
+			}
 
 			if(!isset($options['stickers']['bloglovin'])) {
 				$options['stickers']['bloglovin'] = array(
@@ -935,31 +967,31 @@
 				switch($options['mode']) {
 					case 0:
 						if($sortable) {
-							$output = $output.'<div id="social_'.$key.'" style="margin-left: 3px; float: left;"> <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="32px" width="32px" /></a></div>';
+							$output = $output.'<div id="social_'.$key.'" style="margin-left: 3px; float: left;"> <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="32px" width="32px" alt="'.$data['name'].'" /></a></div>';
 						}
 						else {
 							if($options['link_new']) {
-								$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="32px" width="32px" /></a>';
+								$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="32px" width="32px" alt="'.$data['name'].'" /></a>';
 							}
 							else {
-								$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="32px" width="32px" /></a>';
+								$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="32px" width="32px" alt="'.$data['name'].'" /></a>';
 							}							
 						}
 					break;
 					case 1:
 						if($options['link_new']) {
-							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="64px" width="64px" /></a>';
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="64px" width="64px" alt="'.$data['name'].'" /></a>';
 						}
 						else {
-							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="64px" width="64px" /></a>';
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="64px" width="64px" alt="'.$data['name'].'" /></a>';
 						}							
 					break;
 					case 2:
 						if($options['link_new']) {
-							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="128px" width="128px" /></a>';
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'" target="_blank"><img src="'.$file_url.'" height="128px" width="128px" alt="'.$data['name'].'" /></a>';
 						}
 						else {
-							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="128px" width="128px" /></a>';
+							$output = $output.' <a href="'.$social_url.'" title="'.$data['name'].'"><img src="'.$file_url.'" height="128px" width="128px" alt="'.$data['name'].'" /></a>';
 						}							
 					break;	
 					case 3:

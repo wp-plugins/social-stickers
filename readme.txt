@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.5.4
+Stable tag: 1.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -25,7 +25,9 @@ Currently supported social networks:
 
 * 500px
 * About Me
+* Academia.edu
 * AIM
+* Anobii
 * APP.net
 * Behance
 * Bebo
@@ -111,6 +113,11 @@ None at the moment.
 3. Plugin settings page
 
 == Changelog ==
+
+= 1.5.5 =
+* Added Academia.edu
+* Added Anobii
+* Added alt attribute to stickers
 
 = 1.5.4 =
 * Added Tout
