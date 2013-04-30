@@ -571,6 +571,9 @@
 				}
 			}
 			
+			$options['stickers']['picasa']['custom'] = false;
+			unset($options['stickers']['picassa']);
+			
 			// Now lets compare the array in the DB with the fresh array and update values respectively
 			foreach($social_stickers_options_install['stickers'] as $key => $value) {
 				if(array_key_exists($key, $options['stickers'])) {
