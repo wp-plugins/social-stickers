@@ -571,8 +571,15 @@
 				}
 			}
 			
-			$options['stickers']['picasa']['custom'] = false;
-			unset($options['stickers']['picassa']);
+			if(isset($options['stickers']['picassa'])) {
+				$options['stickers']['picasa'] = array(
+					'url' => 'http://picasaweb.google.com/[:username]',
+					'name' => 'Picasa',
+					'custom' => false,
+					'username' => (isset($options['stickers']['picassa']['username']) && strlen($options['stickers']['picassa']['username']) > 0) ? $options['stickers']['picassa']['username'] : ''
+				);
+				unset($options['stickers']['picassa']);
+			}
 			
 			// Now lets compare the array in the DB with the fresh array and update values respectively
 			foreach($social_stickers_options_install['stickers'] as $key => $value) {
@@ -939,7 +946,6 @@
 
 		$options = get_option('social_stickers_settings');
 		
-
 		if(!is_array($options)) {
 			$message = "You've successfully deleted all Social Stickers data from the database. You can now deactivate the plugin.";	
 		}
@@ -1488,7 +1494,7 @@
 			foreach($options['stickers'] as $key => $value) {
 				$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
-				if(file_exists($file)) {
+				if(file_exists($file) && strlen($value['username']) > 0) {
 					$sticker_output_tmp = str_replace("{\$sticker_img_16}", '<img src="'.$file_url.'" height="16px" /> ', $sticker_string);
 					$sticker_output_tmp = str_replace("{\$sticker_img_32}", '<img src="'.$file_url.'" height="32px" /> ', $sticker_output_tmp);
 					$sticker_output_tmp = str_replace("{\$sticker_img_64}", '<img src="'.$file_url.'" height="64px" /> ', $sticker_output_tmp);
@@ -1531,6 +1537,8 @@
 			$blank = ' target="_blank"';
 		}
 		
+		$no_profiles = true;
+		
 		$img_size = $options['mode'];
 		$img_append = "";
 		if($img_size == 0) $img_append = ' width="32px" height="32px" ';
@@ -1559,7 +1567,8 @@
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 				$url = str_replace("[:username]", $options['stickers'][$key]['username'], $options['stickers'][$key]['url']);
 				$name = $options['stickers'][$key]['name'];
-				if(file_exists($file)) {
+				if(file_exists($file) && strlen($value['username']) > 0) {
+					$no_profiles = false;
 					if($img_size == 3) {
 						$output .= '<img src="'.$file_url.'" '.$img_append.'/> <a href="'.$url.'"'.$blank.' title="'.$name.'">'.$name.'</a><br />';
 					}
@@ -1570,6 +1579,9 @@
 			}		
 		}
 		
+		if($no_profiles) {
+			$output .= "There are currently no active social stickers.";
+		}
 		
 		return $output;
 	

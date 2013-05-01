@@ -127,6 +127,7 @@ None at the moment.
 * [New] User interface, now tabbed
 * [New] Added new theme to default set, Media Baloons by Jack Cai
 * [Fix] Moved some javascript to admin only area (sortable.js)
+* [Fix] Fixed Picasa error (not showing in networks)
 * [Deprecated] Removed the field prefix from options (deprecated because of new function - custom HTML output)
 * [Deprecated] Removed the field suffix from options (deprecated because of new function - custom HTML output)
 * Added Spotify to social networks.
