@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ None at the moment.
 4. Plugin settings page (advanced plugin mode settings)
 
 == Changelog ==
+
+= 2.0.1 =
+[Fix] Fixed a small bug which caused "There are currently no active social stickers" to show, even though profiles were entered.
 
 = 2.0 =
 * [New] Add custom social networks

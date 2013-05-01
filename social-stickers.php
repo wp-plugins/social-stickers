@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.0
+		Version: 2.0.1
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -56,7 +56,7 @@
 	// The installation array, also used for the update procedure
 	global $social_stickers_options_install;
 	$social_stickers_options_install = array(
-		'version' => '2.0',
+		'version' => '2.01',
 		'powered_by_msg' => false,
 		'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 		'theme' => 'default',
@@ -535,7 +535,7 @@
 	// Update script ...
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 2.0) {
+		if(((float)$options['version']) < 2.01) {
 			update_social_stickers();
 		}	
 	}
@@ -551,7 +551,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.0) {
+		if(((float) $options['version']) < 2.01) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -607,7 +607,7 @@
 					}
 			}
 
-			$options['version'] = '2.0';
+			$options['version'] = '2.01';
 			update_option('social_stickers_settings', $options);
 			
 		}
@@ -1553,6 +1553,7 @@
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$value.'.png';
 				$url = str_replace("[:username]", $options['stickers'][$value]['username'], $options['stickers'][$value]['url']);
 				$name = $options['stickers'][$value]['name'];
+				$no_profiles = false;
 				if($img_size == 3) {
 					$output .= '<img src="'.$file_url.'" '.$img_append.'/> <a href="'.$url.'"'.$blank.' title="'.$name.'">'.$name.'</a><br />';
 				}
