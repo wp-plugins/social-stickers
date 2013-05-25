@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.0
+		Version: 2.0.2
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -56,7 +56,7 @@
 	// The installation array, also used for the update procedure
 	global $social_stickers_options_install;
 	$social_stickers_options_install = array(
-		'version' => '2.0',
+		'version' => '2.02',
 		'powered_by_msg' => false,
 		'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 		'theme' => 'default',
@@ -535,7 +535,7 @@
 	// Update script ...
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 2.0) {
+		if(((float)$options['version']) < 2.02) {
 			update_social_stickers();
 		}	
 	}
@@ -551,7 +551,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.0) {
+		if(((float) $options['version']) < 2.02) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -569,6 +569,16 @@
 						$options['stickers'][$key]['custom'] = true;
 					}
 				}
+			}
+			
+			if(isset($options['stickers']['picassa'])) {
+				$options['stickers']['picasa'] = array(
+					'url' => 'http://picasaweb.google.com/[:username]',
+					'name' => 'Picasa',
+					'custom' => false,
+					'username' => (isset($options['stickers']['picassa']['username']) && strlen($options['stickers']['picassa']['username']) > 0) ? $options['stickers']['picassa']['username'] : ''
+				);
+				unset($options['stickers']['picassa']);
 			}
 			
 			// Now lets compare the array in the DB with the fresh array and update values respectively
@@ -597,7 +607,7 @@
 					}
 			}
 
-			$options['version'] = '2.0';
+			$options['version'] = '2.02';
 			update_option('social_stickers_settings', $options);
 			
 		}
@@ -936,7 +946,6 @@
 
 		$options = get_option('social_stickers_settings');
 		
-
 		if(!is_array($options)) {
 			$message = "You've successfully deleted all Social Stickers data from the database. You can now deactivate the plugin.";	
 		}
@@ -1446,7 +1455,7 @@
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$value.'.png';
 				$social_url = str_replace("[:username]", $options['stickers'][$value]['username'], $options['stickers'][$value]['url']);
 				if(file_exists($file)) {
-					$output .= '<div id="social_'.$value.'" style="margin-left: 3px; float: left;"> <a href="'.$social_url.'" title="'.$options['stickers'][$value]['name'].'"><img src="'.$file_url.'" height="32px" width="32px" alt="'.$options['stickers'][$value]['name'].'" /></a></div>';
+					$output .= '<div id="social_'.$value.'" style="margin-left: 3px; float: left;"> <a href="'.$social_url.'" title="'.$options['stickers'][$value]['name'].'"><img src="'.$file_url.'" height="32" width="32" alt="'.$options['stickers'][$value]['name'].'" /></a></div>';
 				}
 			}
 			$output .= "</div>";
@@ -1471,10 +1480,10 @@
 			foreach($options['theme_stickers_order'][$options['theme']] as $key => $value) {
 				$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$value.'.png';
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$value.'.png';
-				$sticker_output_tmp = str_replace("{\$sticker_img_16}", '<img src="'.$file_url.'" height="16px" /> ', $sticker_string);
-				$sticker_output_tmp = str_replace("{\$sticker_img_32}", '<img src="'.$file_url.'" height="32px" /> ', $sticker_output_tmp);
-				$sticker_output_tmp = str_replace("{\$sticker_img_64}", '<img src="'.$file_url.'" height="64px" /> ', $sticker_output_tmp);
-				$sticker_output_tmp = str_replace("{\$sticker_img_128}", '<img src="'.$file_url.'" height="128px" /> ', $sticker_output_tmp);
+				$sticker_output_tmp = str_replace("{\$sticker_img_16}", '<img src="'.$file_url.'" height="16" width="16" /> ', $sticker_string);
+				$sticker_output_tmp = str_replace("{\$sticker_img_32}", '<img src="'.$file_url.'" height="32" width="32" /> ', $sticker_output_tmp);
+				$sticker_output_tmp = str_replace("{\$sticker_img_64}", '<img src="'.$file_url.'" height="64" width="64" /> ', $sticker_output_tmp);
+				$sticker_output_tmp = str_replace("{\$sticker_img_128}", '<img src="'.$file_url.'" height="128" width="128" /> ', $sticker_output_tmp);
 				$sticker_output_tmp = str_replace("{\$sticker_name}", $options['stickers'][$value]['name'], $sticker_output_tmp);
 				$sticker_url = str_replace("[:username]", $options['stickers'][$value]['username'], $options['stickers'][$value]['url']);
 				$sticker_output_tmp = str_replace("{\$sticker_url}", $sticker_url, $sticker_output_tmp);
@@ -1485,11 +1494,11 @@
 			foreach($options['stickers'] as $key => $value) {
 				$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
-				if(file_exists($file)) {
-					$sticker_output_tmp = str_replace("{\$sticker_img_16}", '<img src="'.$file_url.'" height="16px" /> ', $sticker_string);
-					$sticker_output_tmp = str_replace("{\$sticker_img_32}", '<img src="'.$file_url.'" height="32px" /> ', $sticker_output_tmp);
-					$sticker_output_tmp = str_replace("{\$sticker_img_64}", '<img src="'.$file_url.'" height="64px" /> ', $sticker_output_tmp);
-					$sticker_output_tmp = str_replace("{\$sticker_img_128}", '<img src="'.$file_url.'" height="128px" /> ', $sticker_output_tmp);
+				if(file_exists($file) && strlen($value['username']) > 0) {
+					$sticker_output_tmp = str_replace("{\$sticker_img_16}", '<img src="'.$file_url.'" height="16" width="16" /> ', $sticker_string);
+					$sticker_output_tmp = str_replace("{\$sticker_img_32}", '<img src="'.$file_url.'" height="32" width="32" /> ', $sticker_output_tmp);
+					$sticker_output_tmp = str_replace("{\$sticker_img_64}", '<img src="'.$file_url.'" height="64" width="64" /> ', $sticker_output_tmp);
+					$sticker_output_tmp = str_replace("{\$sticker_img_128}", '<img src="'.$file_url.'" height="128" width="128" /> ', $sticker_output_tmp);
 					$sticker_output_tmp = str_replace("{\$sticker_name}", $options['stickers'][$key]['name'], $sticker_output_tmp);
 					$sticker_url = str_replace("[:username]", $options['stickers'][$key]['username'], $options['stickers'][$key]['url']);
 					$sticker_output_tmp = str_replace("{\$sticker_url}", $sticker_url, $sticker_output_tmp);
@@ -1528,12 +1537,14 @@
 			$blank = ' target="_blank"';
 		}
 		
+		$no_profiles = true;
+		
 		$img_size = $options['mode'];
 		$img_append = "";
-		if($img_size == 0) $img_append = ' width="32px" height="32px" ';
-		else if($img_size == 1) $img_append = ' width="64px" height="64px" ';
-		else if($img_size == 2) $img_append = ' width="128px" height="128px" ';
-		else if($img_size == 3) $img_append = ' width="16px" height="16px" ';
+		if($img_size == 0) $img_append = ' width="32" height="32" ';
+		else if($img_size == 1) $img_append = ' width="64" height="64" ';
+		else if($img_size == 2) $img_append = ' width="128" height="128" ';
+		else if($img_size == 3) $img_append = ' width="16" height="16" ';
 
 		if(isset($options['theme_stickers_order'][$options['theme']]) && is_array($options['theme_stickers_order'][$options['theme']]) 
 			&& count($options['theme_stickers_order'][$options['theme']]) > 0) {
@@ -1542,6 +1553,7 @@
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$value.'.png';
 				$url = str_replace("[:username]", $options['stickers'][$value]['username'], $options['stickers'][$value]['url']);
 				$name = $options['stickers'][$value]['name'];
+				$no_profiles = false;
 				if($img_size == 3) {
 					$output .= '<img src="'.$file_url.'" '.$img_append.'/> <a href="'.$url.'"'.$blank.' title="'.$name.'">'.$name.'</a><br />';
 				}
@@ -1556,7 +1568,8 @@
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 				$url = str_replace("[:username]", $options['stickers'][$key]['username'], $options['stickers'][$key]['url']);
 				$name = $options['stickers'][$key]['name'];
-				if(file_exists($file)) {
+				if(file_exists($file) && strlen($value['username']) > 0) {
+					$no_profiles = false;
 					if($img_size == 3) {
 						$output .= '<img src="'.$file_url.'" '.$img_append.'/> <a href="'.$url.'"'.$blank.' title="'.$name.'">'.$name.'</a><br />';
 					}
@@ -1567,6 +1580,9 @@
 			}		
 		}
 		
+		if($no_profiles) {
+			$output .= "There are currently no active social stickers.";
+		}
 		
 		return $output;
 	

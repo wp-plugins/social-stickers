@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 2.0
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,12 @@ None at the moment.
 
 == Changelog ==
 
+= 2.0.2 =
+[Fix] Fixed the height and width attributes of images to mark HTML specifications.
+
+= 2.0.1 =
+[Fix] Fixed a small bug which caused "There are currently no active social stickers" to show, even though profiles were entered.
+
 = 2.0 =
 * [New] Add custom social networks
 * [New] You can now fully customize stickers output via HTML
@@ -127,6 +133,7 @@ None at the moment.
 * [New] User interface, now tabbed
 * [New] Added new theme to default set, Media Baloons by Jack Cai
 * [Fix] Moved some javascript to admin only area (sortable.js)
+* [Fix] Fixed Picasa error (not showing in networks)
 * [Deprecated] Removed the field prefix from options (deprecated because of new function - custom HTML output)
 * [Deprecated] Removed the field suffix from options (deprecated because of new function - custom HTML output)
 * Added Spotify to social networks.
