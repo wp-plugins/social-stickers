@@ -120,10 +120,10 @@ None at the moment.
 == Changelog ==
 
 = 2.0.2 =
-[Fix] Fixed the height and width attributes of images to mark HTML specifications.
+* [Fix] Fixed the height and width attributes of images to mark HTML specifications.
 
 = 2.0.1 =
-[Fix] Fixed a small bug which caused "There are currently no active social stickers" to show, even though profiles were entered.
+* [Fix] Fixed a small bug which caused "There are currently no active social stickers" to show, even though profiles were entered.
 
 = 2.0 =
 * [New] Add custom social networks
