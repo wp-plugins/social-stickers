@@ -4,11 +4,15 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.0.2
+		Version: 2.1
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
 	*/ 
+	
+	// 2.1 TODO
+	// Add column output
+	// Add Twitch TV - DONE
 	
 	// Add Twitter libraries
 	if(!class_exists('tmhOAuth')) {
@@ -25,7 +29,6 @@
 	add_action('widgets_init', create_function('', 'return register_widget("social_stickers_widget");')); // Register the widget
 	add_action('admin_init', 'social_stickers_sortable_script'); // Add javascript for sorting but only in admin area
 	add_shortcode('social_stickers', 'social_stickers_shortcode_handler');
-
 
 	function social_stickers_sortable_script() {
 		wp_enqueue_script('social-stickers-sortable-script', plugin_dir_url(__FILE__).'js/sortable.js', array("jquery", "jquery-ui-core", "jquery-ui-sortable"));
@@ -56,7 +59,7 @@
 	// The installation array, also used for the update procedure
 	global $social_stickers_options_install;
 	$social_stickers_options_install = array(
-		'version' => '2.02',
+		'version' => '2.1',
 		'powered_by_msg' => false,
 		'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 		'theme' => 'default',
@@ -81,6 +84,10 @@
 		'advanced_view' => false,
 		'last_access' => time(),
 		'custom_html' => false,
+		'column_output' => array(
+			'active' => false,
+			'width' => 3
+		),
 		'custom_html_text' => '<p>Add me on any of the social networks!</p>
 
 <p>
@@ -487,6 +494,12 @@
 				'custom' => false,
 				'username' => ''
 			),
+			'twitchtv' => array(
+				'url' => 'http://twitch.tv/[:username]',
+				'name' => 'Twitch TV',
+				'custom' => false,
+				'username' => ''
+			),			
 			'vimeo' => array(
 				'url' => 'http://vimeo.com/[:username]',
 				'name' => 'Vimeo',
@@ -535,7 +548,7 @@
 	// Update script ...
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 2.02) {
+		if(((float)$options['version']) < 2.1) {
 			update_social_stickers();
 		}	
 	}
@@ -551,7 +564,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.02) {
+		if(((float) $options['version']) < 2.1) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -607,7 +620,7 @@
 					}
 			}
 
-			$options['version'] = '2.02';
+			$options['version'] = '2.1';
 			update_option('social_stickers_settings', $options);
 			
 		}
@@ -801,6 +814,8 @@
 					$options['facebook_data']['page'] = stripslashes(html_entity_decode($_POST['facebook_page']));
 					$options['custom_html_text'] = stripslashes(html_entity_decode($_POST['custom_html_text']));
 					$options['refresh_time'] = intval($_POST['refresh_time']);
+					$options['column_output']['width'] = intval($_POST['rows_count']);
+					$options['column_output']['active'] = (isset($_POST['column_output'])) ? true : false;
 					
 					$url_parameters .= "&msg=10";
 					
@@ -1170,6 +1185,20 @@
 						</td>
 					</tr>
 					<tr>
+						<th scope="row"><label for="column_output">Use column output</label></th>
+						<td>
+							<input name="column_output" id="column_output" type="checkbox" <?php if($options['column_output']['active']) { ?> checked="checked" <?php } ?>/>
+							<br /><span class="description">Check this box if you want to use a column output for your stickers (specify number of stickers in a row below).</span>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="rows_count">Number of stickers in row</label></th>
+						<td>
+							<input type="text" name="rows_count" id="rows_count" size="5" value="<?php echo $options['column_output']['width']; ?>" /><br />
+							<span class="description">Specify number of stickers in row (if using column output).</span>
+						</td>
+					</tr>							
+					<tr>
 						<th scope="row"><label for="custom_html">Use custom HTML output</label></th>
 						<td>
 							<input name="custom_html" id="custom_html" type="checkbox" <?php if($options['custom_html']) { ?> checked="checked" <?php } ?>/>
@@ -1477,6 +1506,7 @@
 		
 		if(isset($options['theme_stickers_order'][$options['theme']]) && is_array($options['theme_stickers_order'][$options['theme']]) && count($options['theme_stickers_order'][$options['theme']]) > 0 
 			&& strlen($sticker_string) > 0) {
+			$social_stickers_column_count = 1;
 			foreach($options['theme_stickers_order'][$options['theme']] as $key => $value) {
 				$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$value.'.png';
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$value.'.png';
@@ -1488,9 +1518,16 @@
 				$sticker_url = str_replace("[:username]", $options['stickers'][$value]['username'], $options['stickers'][$value]['url']);
 				$sticker_output_tmp = str_replace("{\$sticker_url}", $sticker_url, $sticker_output_tmp);
 				$stickers_whole_string .= $sticker_output_tmp;
+				if($options['column_output']['active']) {
+					if($social_stickers_column_count % $options['column_output']['width'] == 0) {
+						$stickers_whole_string .= "<br />";
+					}
+					$social_stickers_column_count++;
+				}
 			}
 		}
 		else if(strlen($sticker_string) > 0) {
+			$social_stickers_column_count = 1;
 			foreach($options['stickers'] as $key => $value) {
 				$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
@@ -1503,6 +1540,12 @@
 					$sticker_url = str_replace("[:username]", $options['stickers'][$key]['username'], $options['stickers'][$key]['url']);
 					$sticker_output_tmp = str_replace("{\$sticker_url}", $sticker_url, $sticker_output_tmp);
 					$stickers_whole_string .= $sticker_output_tmp;
+					if($options['column_output']['active']) {
+						if($social_stickers_column_count % $options['column_output']['width'] == 0) {
+							$stickers_whole_string .= "<br />";
+						}
+						$social_stickers_column_count++;
+					}
 				}
 			}	
 		}
@@ -1546,6 +1589,7 @@
 		else if($img_size == 2) $img_append = ' width="128" height="128" ';
 		else if($img_size == 3) $img_append = ' width="16" height="16" ';
 
+		$social_stickers_column_count = 1;
 		if(isset($options['theme_stickers_order'][$options['theme']]) && is_array($options['theme_stickers_order'][$options['theme']]) 
 			&& count($options['theme_stickers_order'][$options['theme']]) > 0) {
 			foreach($options['theme_stickers_order'][$options['theme']] as $key => $value) {
@@ -1560,14 +1604,22 @@
 				else {
 					$output .= '<a href="'.$url.'"'.$blank.' title="'.$name.'"><img src="'.$file_url.'" '.$img_append.'/></a> ';
 				}
+				if($options['column_output']['active']) {
+					if($social_stickers_column_count % $options['column_output']['width'] == 0) {
+						$output .= "<br />";
+					}
+					$social_stickers_column_count++;
+				}
 			}
 		}
 		else {
+			$social_stickers_column_count = 1;
 			foreach($options['stickers'] as $key => $value) {
 				$file = plugin_dir_path(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 				$file_url = plugin_dir_url(__FILE__).'themes/'.$options['theme'].'/'.$key.'.png';
 				$url = str_replace("[:username]", $options['stickers'][$key]['username'], $options['stickers'][$key]['url']);
 				$name = $options['stickers'][$key]['name'];
+				$count = 1;
 				if(file_exists($file) && strlen($value['username']) > 0) {
 					$no_profiles = false;
 					if($img_size == 3) {
@@ -1575,6 +1627,12 @@
 					}
 					else {
 						$output .= '<a href="'.$url.'"'.$blank.' title="'.$name.'"><img src="'.$file_url.'" '.$img_append.'/></a> ';
+					}
+					if($options['column_output']['active']) {
+						if($social_stickers_column_count % $options['column_output']['width'] == 0) {
+							$output .= "<br />";
+						}
+						$social_stickers_column_count++;
 					}
 				}
 			}		
