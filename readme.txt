@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 2.1
+Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -119,6 +119,9 @@ None at the moment.
 
 == Changelog ==
 
+= 2.2 =
+* [New] Added a new HTML customization option
+
 = 2.1 =
 * [New] Added the ability to output stickers in rows and columns
 * [New] Added TwitchTV to social networks list.
@@ -228,6 +231,7 @@ Once inside a loop, you can use any of the following variables:
 {$sticker_img_64} - output sticker image, width 64px
 {$sticker_img_128} - output sticker image, width 128px
 {$sticker_name} - output sticker name
+{$sticker_img_url} - output the sticker URL
 {$sticker_url} - output sticker profile URL`
 
 Outside a loop you can use the following:
