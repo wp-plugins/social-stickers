@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.2
+		Version: 2.2.1
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -55,7 +55,7 @@
 	// The installation array, also used for the update procedure
 	global $social_stickers_options_install;
 	$social_stickers_options_install = array(
-		'version' => '2.2',
+		'version' => '2.21',
 		'powered_by_msg' => false,
 		'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 		'theme' => 'default',
@@ -544,7 +544,7 @@
 	// Update script ...
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 2.2) {
+		if(((float)$options['version']) < 2.21) {
 			update_social_stickers();
 		}	
 	}
@@ -560,7 +560,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.2) {
+		if(((float) $options['version']) < 2.21) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -616,7 +616,7 @@
 					}
 			}
 
-			$options['version'] = '2.2';
+			$options['version'] = '2.21';
 			update_option('social_stickers_settings', $options);
 			
 		}
@@ -1512,7 +1512,7 @@
 				$sticker_output_tmp = str_replace("{\$sticker_img_64}", '<img src="'.$file_url.'" height="64" width="64" /> ', $sticker_output_tmp);
 				$sticker_output_tmp = str_replace("{\$sticker_img_128}", '<img src="'.$file_url.'" height="128" width="128" /> ', $sticker_output_tmp);
 				
-				$sticker_output_tmp = str_replace("{\$sticker_img_url}", $file_url, $sticker_string);
+				$sticker_output_tmp = str_replace("{\$sticker_img_url}", $file_url, $sticker_output_tmp);
 
 				$sticker_output_tmp = str_replace("{\$sticker_name}", $options['stickers'][$value]['name'], $sticker_output_tmp);
 				$sticker_url = str_replace("[:username]", $options['stickers'][$value]['username'], $options['stickers'][$value]['url']);
@@ -1537,7 +1537,7 @@
 					$sticker_output_tmp = str_replace("{\$sticker_img_64}", '<img src="'.$file_url.'" height="64" width="64" /> ', $sticker_output_tmp);
 					$sticker_output_tmp = str_replace("{\$sticker_img_128}", '<img src="'.$file_url.'" height="128" width="128" /> ', $sticker_output_tmp);
 
-					$sticker_output_tmp = str_replace("{\$sticker_img_url}", $file_url, $sticker_string);
+					$sticker_output_tmp = str_replace("{\$sticker_img_url}", $file_url, $sticker_output_tmp);
 
 					$sticker_output_tmp = str_replace("{\$sticker_name}", $options['stickers'][$key]['name'], $sticker_output_tmp);
 					$sticker_url = str_replace("[:username]", $options['stickers'][$key]['username'], $options['stickers'][$key]['url']);

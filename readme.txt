@@ -4,7 +4,7 @@ Donate link: http://gum.co/social-stickers
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 2.2
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -118,6 +118,9 @@ None at the moment.
 4. Plugin settings page (advanced plugin mode settings)
 
 == Changelog ==
+
+= 2.2.1 =
+* [Fix] Fixed a custom HTML output error (not showing icons correctly if using custom HTML output)
 
 = 2.2 =
 * [New] Added a new HTML customization option
