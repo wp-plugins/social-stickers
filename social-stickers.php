@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://wpplugz.is-leet.com
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.2.2
+		Version: 2.2.3
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -67,7 +67,7 @@
 	// The installation array, also used for the update procedure
 	global $social_stickers_options_install;
 	$social_stickers_options_install = array(
-		'version' => '2.22',
+		'version' => '2.23',
 		'powered_by_msg' => false,
 		'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 		'theme' => 'default',
@@ -406,6 +406,12 @@
 				'custom' => false,
 				'username' => ''
 			),
+			'specificfeeds' => array(
+				'url' => '[:username]',
+				'name' => 'SpecificFeeds',
+				'custom' => false,
+				'username' => ''
+			),
 			'quora' => array(
 				'url' => 'http://quora.com/[:username]',
 				'name' => 'Quora',
@@ -556,7 +562,7 @@
 	// Update script ...
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 2.22) {
+		if(((float)$options['version']) < 2.23) {
 			update_social_stickers();
 		}	
 	}
@@ -572,7 +578,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.22) {
+		if(((float) $options['version']) < 2.23) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -628,7 +634,7 @@
 					}
 			}
 
-			$options['version'] = '2.22';
+			$options['version'] = '2.23';
 			update_option('social_stickers_settings', $options);
 			
 		}
@@ -1336,12 +1342,16 @@
 ?>				
 
 								<tr>
-									<th scope="row"><label for="<?php echo $name; ?>"><?php echo $data['name']; ?></label></th>
+									<th scope="row"><?php if($name == "specificfeeds") { ?><label for="<?php echo $name; ?>"><?php echo $data['name']; ?></label><br><span class="description">Free & easy RSS2Email solution.</span><?php } else { ?><label for="<?php echo $name; ?>"><?php echo $data['name']; ?></label><?php } ?></th>
 									<td>
 										<input type="text" name="<?php echo $name; ?>" value="<?php echo esc_attr(stripslashes($data['username'])); ?>" id="<?php echo $name; ?>" size="40"/>
 										<a href=""><img src=""></a>
 										<br />
+										<?php if($name == "specificfeeds") { ?>
+										<span class="description">Enter the pop-up link you received when setting up your feed on <a href="http://www.specificfeeds.com/rss" target="_blank">www.specificfeeds.com/rss</a>.</span>
+										<?php } else { ?>
 										<span class="description">Trouble finding your username? Hint: <?php echo str_replace(array('[:', ']'), array('', ''), $data['url']); ?>.</span>
+										<?php } ?>
 <?php 
 					
 										if($options['show_edit_url']) { 
