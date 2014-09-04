@@ -26,6 +26,7 @@
 	add_action('admin_init', 'social_stickers_scripts'); // Add javascript for sorting but only in admin area
 	add_shortcode('social_stickers', 'social_stickers_shortcode_handler');
 	add_action('wp_ajax_social_stickers_reload_admin_theme', 'social_stickers_theme_reload');
+	add_filter('widget_text', 'do_shortcode');
 
 	function social_stickers_theme_reload() {
 		ob_start();
@@ -1805,9 +1806,9 @@
 				echo $before_title . $title . $after_title;
 			}
 			
-			// The widget code and the widgeet output
+			// The widget code and the widget output
 			
-			display_social_stickers();
+			$output = display_social_stickers(false, true, false);
 			
 			// End of widget output
 			
