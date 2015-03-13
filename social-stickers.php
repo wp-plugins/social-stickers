@@ -2,9 +2,9 @@
 
 	/* 
 		Plugin Name: Social Stickers
-		Plugin URI: http://wpplugz.is-leet.com
+		Plugin URI: http://bostjan.gets-it.net/plugins
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.2.3
+		Version: 2.2.4
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -68,7 +68,7 @@
 	// The installation array, also used for the update procedure
 	global $social_stickers_options_install;
 	$social_stickers_options_install = array(
-		'version' => '2.23',
+		'version' => '2.24',
 		'powered_by_msg' => false,
 		'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 		'theme' => 'default',
@@ -579,7 +579,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.23) {
+		if(((float) $options['version']) < 2.24) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -635,7 +635,7 @@
 					}
 			}
 
-			$options['version'] = '2.23';
+			$options['version'] = '2.24';
 			update_option('social_stickers_settings', $options);
 			
 		}
@@ -988,9 +988,9 @@
 			<tr>
 				<th scope="row"><img src="<?php echo plugin_dir_url(__FILE__).'images/main.png'; ?>" height="96px" width="96px" /></th>
 				<td>
-					<p>Thank you for using this plugin. If you like the plugin, you can <a href="http://gum.co/social-stickers" target="_blank">buy me a cup of coffee</a> :)</p>
-					<p><strong>Want more features</strong> like <strong>drag and drop theme uploading</strong>, <strong>multisite</strong> compatibility, <strong>statistics</strong> tracking, shortcode generation? <strong><a href="https://gum.co/social-stickers-pro">GO PRO.</a></strong><script type="text/javascript" src="https://gumroad.com/js/gumroad.js"></script>
-					<p>You can visit the official website and download more themes @ <a href="http://wpplugz.is-leet.com">wpPlugz</a>.</p>
+					<p>Thank you for using this plugin. If you like the plugin, you can <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SKMW3BAC8KE52" target="_blank">buy me a cup of coffee</a> :)</p>
+					<p><strong>Want more features</strong> like <strong>drag and drop theme uploading</strong>, <strong>multisite</strong> compatibility, <strong>statistics</strong> tracking, shortcode generation? <strong><a href="http://bostjan.gets-it.net/plugin/social-stickers-pro">GO PRO.</a></strong>
+					<p>You can visit the official website and download more themes @ <a href="http://bostjan.gets-it.net/plugins">the plugin website</a>.</p>
 					<p>This plugin uses icons from <a href="http://www.visualpharm.com/">VisualPharm</a> in the settings pages and the <a href="https://github.com/themattharris/tmhOAuth">tmhOAuth</a> library by Matt Harris.</p>
 				</td>
 			</tr>
