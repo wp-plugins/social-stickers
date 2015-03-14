@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://bostjan.gets-it.net/plugins
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.2.4
+		Version: 2.2.5
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -563,7 +563,7 @@
 	// Update script ...
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 2.23) {
+		if(((float)$options['version']) < 2.25) {
 			update_social_stickers();
 		}	
 	}
@@ -579,7 +579,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.24) {
+		if(((float) $options['version']) < 2.25) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -635,7 +635,7 @@
 					}
 			}
 
-			$options['version'] = '2.24';
+			$options['version'] = '2.25';
 			update_option('social_stickers_settings', $options);
 			
 		}
