@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://bostjan.gets-it.net/plugins
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.2.5
+		Version: 2.2.6
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -68,7 +68,7 @@
 	// The installation array, also used for the update procedure
 	global $social_stickers_options_install;
 	$social_stickers_options_install = array(
-		'version' => '2.24',
+		'version' => '2.26',
 		'powered_by_msg' => false,
 		'mode' => 0, // Mode of output - 0 is 32x32 icon, 1 is 64x64 icon, 2 is 128x128 icon, 3 is small icon and text
 		'theme' => 'default',
@@ -563,7 +563,7 @@
 	// Update script ...
 	$options = get_option('social_stickers_settings');
 	if(is_array($options)) {
-		if(((float)$options['version']) < 2.25) {
+		if(((float)$options['version']) < 2.26) {
 			update_social_stickers();
 		}	
 	}
@@ -579,7 +579,7 @@
 		global $social_stickers_options_install;
 		$options = get_option('social_stickers_settings');
 		
-		if(((float) $options['version']) < 2.25) {
+		if(((float) $options['version']) < 2.26) {
 
 			unset($options['prefix']); // These two are deprecated in v2.0
 			unset($options['suffix']);
@@ -635,7 +635,7 @@
 					}
 			}
 
-			$options['version'] = '2.25';
+			$options['version'] = '2.26';
 			update_option('social_stickers_settings', $options);
 			
 		}
@@ -1742,7 +1742,7 @@
 		else if(!$sortable && !$options['custom_html']) { // Default mode
 			$output = social_stickers_general_html_show($options);
 		}
-		
+
 		if($options['powered_by_msg']) {
 			$output = $output.'<br /><br />Powered by <a href="http://wpplugz.is-leet.com">wpPlugz</a>.';
 		}
@@ -1809,6 +1809,7 @@
 			// The widget code and the widget output
 			
 			$output = display_social_stickers(false, true, false);
+			echo $output;
 			
 			// End of widget output
 			

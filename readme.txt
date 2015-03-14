@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: social profile, social icons, social, social widget, facebook, twitter, social widget
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 2.2.5
+Stable tag: 2.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ None at the moment.
 4. Plugin settings page (advanced plugin mode settings)
 
 == Changelog ==
+
+= 2.2.6 =
+* [Important bugfix] Widget not showing in some cases, an IMPORTANT update.
 
 = 2.2.5 =
 * [Fix] Update method fixes.
