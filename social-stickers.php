@@ -4,7 +4,7 @@
 		Plugin Name: Social Stickers
 		Plugin URI: http://bostjan.gets-it.net/plugins
 		Description: A simple plugin that shows the social networks you use.
-		Version: 2.2.6
+		Version: 2.2.7
 		Author: Bostjan Cigan
 		Author URI: http://bostjan.gets-it.net
 		License: GPL v2
@@ -1792,7 +1792,7 @@
 		
 		function social_stickers_widget() {
 			$widget_ops = array('classname' => 'social_stickers_widget', 'description' => 'Display the social networks you use!' );			
-			$this->WP_Widget('social_stickers_widget', 'Social Stickers', $widget_ops);
+			parent::WP_Widget('social_stickers_widget', 'Social Stickers', $widget_ops);
 		}
 		
 		function widget($args, $instance) {
